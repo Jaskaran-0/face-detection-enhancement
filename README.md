@@ -37,7 +37,7 @@ Navigate into the project directory:
 cd face-detection-enhancement
 ```
 
-### Step 2: Set Up Virtual Environment
+### Step 2: Set Up Virtual Environment(optional)
 It is recommended to create a virtual environment to manage the project dependencies.
 
 For Windows:
