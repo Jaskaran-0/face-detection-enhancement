@@ -3,10 +3,10 @@ import re
 from deepface import DeepFace
 
 # Define paths and model name
-archive_dir = './finished_photos'
-faces_db_path = './labeled_faces'
+archive_dir = './photos1'
+faces_db_path = './labeled_faces1'
 model_name = "Facenet"
-detector_backend = "retinaface"
+detector_backend = "mtcnn"
 distance_metric = "cosine"
 
 # Traverse the archive directory and process images
@@ -19,7 +19,7 @@ for root, dirs, files in os.walk(archive_dir):
         image_path = os.path.join(root, file_name)
         try:
             # Perform face matching
-            dfs = DeepFace.find(img_path=image_path, db_path=faces_db_path, model_name=model_name, 
+            dfs = DeepFace.find(img_path=image_path, db_path=faces_db_path, model_name=model_name,
                                 distance_metric=distance_metric, detector_backend=detector_backend)
             for df in dfs:
                 if not df.empty:

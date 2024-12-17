@@ -1,8 +1,8 @@
 # Define the directory containing TIF files
-$directoryPath = "photos"
+$directoryPath = "photos1"
 
-# Define the maximum file size in bytes (80 MB)
-$maxFileSize = 80 * 1MB
+# Define the maximum file size in bytes (10 MB)
+$maxFileSize = 25 * 1MB
 
 # Function to get the file size
 function Get-FileSize {
@@ -26,7 +26,7 @@ function Resize-Image {
     do {
         # Calculate new dimensions based on scale factor
         $dimensions = & magick convert $inputFile -ping -format "%[fx:w*$scaleFactor]x%[fx:h*$scaleFactor]" info:
-        
+
         # Resize the image to the new dimensions
         & magick convert $inputFile -resize $dimensions $outputFile
 
@@ -52,6 +52,11 @@ Get-ChildItem -Path $directoryPath -Filter "*.tif" | ForEach-Object {
         $outputFilePath = [System.IO.Path]::Combine($directoryPath, [System.IO.Path]::GetFileNameWithoutExtension($_.Name) + "_resized.tif")
         Resize-Image -inputFile $filePath -outputFile $outputFilePath -targetSize $maxFileSize
         Write-Output "Resized $filePath to $outputFilePath"
+
+        # Replace original file with resized file
+        Remove-Item -Path $filePath -Force
+        Rename-Item -Path $outputFilePath -NewName $_.Name
+        Write-Output "Replaced original file with resized version: $filePath"
     } else {
         Write-Output "$filePath is already under the size limit."
     }
